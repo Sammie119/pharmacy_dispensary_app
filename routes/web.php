@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DrugController;
+use App\Http\Controllers\DrugTransactionController;
 use App\Http\Controllers\FormRequestController;
 
 /*
@@ -35,6 +36,13 @@ Route::middleware(['authCheck'])->group(function () {
         Route::get('drugs', 'index')->name('drugs');
         Route::post('store_drug', 'store')->name('store_drug');  
         Route::get('delete_drug/{id}', 'destroy')->name('delete_drug');        
+    });
+
+    Route::controller(DrugTransactionController::class)->group(function (){
+        Route::get('drugs_transaction', 'index')->name('drugs_transaction');
+        Route::get('autocomplete_drugs', 'getDrugInfo');
+        Route::post('store_drug_transaction', 'store')->name('store_drug_transaction');  
+        Route::get('delete_drug_transaction/{id}', 'destroy')->name('delete_drug_transaction');        
     });
 });
 

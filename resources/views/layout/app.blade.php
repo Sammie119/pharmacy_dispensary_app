@@ -53,6 +53,10 @@
                             </li>
 
                             <li class="nav-item">
+                                <a class="nav-link {{ request()->is('drugs_transaction') ? 'active' : '' }}" href="{{ route('drugs_transaction') }}">{{ __('Transaction') }}</a>
+                            </li>
+
+                            <li class="nav-item">
                                 <a class="nav-link {{ request()->is('drugs') ? 'active' : '' }}" href="{{ route('drugs') }}">{{ __('Drugs') }}</a>
                             </li>
 
@@ -133,9 +137,9 @@
 @endif
 
 <script>
-    $(".alert").fadeTo(2000, 500).slideUp(500, function(){
-        $(".alert").slideUp(500);
-    });
+    // $(".alert").fadeTo(2000, 500).slideUp(500, function(){
+    //     $(".alert").slideUp(500);
+    // });
 </script>
 
 </html>
