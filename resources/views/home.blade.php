@@ -22,33 +22,33 @@
         <div class="row">
             <div class="col-xl-3 col-md-6">
                 <div class="card bg-primary text-white mb-4">
-                    <div class="card-body tetx-head">Total Staff</div>
+                    <div class="card-body tetx-head">Total Users</div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        {{-- <label class="footer-number">{{ $results['t_staff'] }}</label> --}}
+                        <label class="footer-number">{{ $results['t_users'] }}</label>
                     </div>
                 </div>
             </div>
             <div class="col-xl-3 col-md-6">
                 <div class="card bg-warning text-white mb-4">
-                    <div class="card-body tetx-head">GRA For {{ Date('F, Y', strtotime(date('d-m-Y') . " last month")) }}</div>
+                    <div class="card-body tetx-head">Total Drugs</div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        {{-- <label class="footer-number">{{ number_format($results['t_gra'], 2) }}</label> --}}
+                        <label class="footer-number">{{ $results['t_drugs'] }}</label>
                     </div>
                 </div>
             </div>
             <div class="col-xl-3 col-md-6">
                 <div class="card bg-success text-white mb-4">
-                    <div class="card-body tetx-head">SSNIT For {{ Date('F, Y', strtotime(date('d-m-Y') . " last month")) }}</div>
+                    <div class="card-body tetx-head">Income For {{ Date('F, Y', strtotime(date('d-m-Y'))) }}</div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        {{-- <label class="footer-number">{{ number_format($results['t_ssf'], 2) }}</label> --}}
+                        <label class="footer-number">{{ number_format($results['i_month'], 2) }}</label>
                     </div>
                 </div>
             </div>
             <div class="col-xl-3 col-md-6">
                 <div class="card bg-danger text-white mb-4">
-                    <div class="card-body tetx-head">Salaries For {{ Date('F, Y', strtotime(date('d-m-Y') . " last month")) }}</div>
+                    <div class="card-body tetx-head">Income For Today ({{ Date('D', strtotime(date('d-m-Y'))) }})</div>
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        {{-- <label class="footer-number">{{ number_format($results['t_salary'], 2) }}</label> --}}
+                        <label class="footer-number">{{ number_format($results['i_today'], 2) }}</label>
                     </div>
                 </div>
             </div>
@@ -56,45 +56,33 @@
         
         <div class="card mb-4">
             <div class="card-header">
-                <label style="font-size: 1.4rem; font-weight: bold">Staff List</label> 
+                <label style="font-size: 1.4rem; font-weight: bold">Users List</label> 
 
-                <input class="form-control float-end" type="text" id="search" style="height: 32px; width: 300px">
+                {{-- <input class="form-control float-end" type="text" id="search" style="height: 32px; width: 300px"> --}}
             </div>
             <div class="card-body">
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Staff #.</th>
-                            <th>First Name</th>
-                            <th>Other Names</th>
-                            <th>Phone</th>
-                            <th>Age</th>
-                            <th>Education Level</th>
-                            <th>Position</th>
-                            <th>Insurance #</th>
-                            <th>Ins. Expiry</th>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Username</th>
                         </tr>
                     </thead>
                     <tbody id="employee_table">
-                        {{-- @forelse ($staff as $key => $staff)
+                        @forelse ($results['users'] as $key => $user)
                             <tr>
                                 <td>{{ $key+1 }}</td>
-                                <td>{{ $staff->staff_number }}</td>
-                                <td>{{ $staff->firstname }}</td>
-                                <td>{{ $staff->othernames }}</td>
-                                <td>{{ $staff->phone }}</td>
-                                <td>{{ $staff->age }}</td>
-                                <td>{{ $staff->level_of_education }}</td>
-                                <td>{{ $staff->position }}</td>
-                                <td>{{ $staff->insurance_number }}</td>
-                                <td>{{ $staff->expiry_days }}</td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->user_level }}</td>
+                                <td>{{ $user->username }}</td>
                             </tr>
                         @empty
                             <tr>
                                 <td colspan="40">No data Found</td>
                             </tr>
-                        @endforelse --}}
+                        @endforelse
                     </tbody>
                 </table>
             </div>

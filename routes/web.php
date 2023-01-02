@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DrugController;
 use App\Http\Controllers\DrugTransactionController;
 use App\Http\Controllers\FormRequestController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,7 +43,19 @@ Route::middleware(['authCheck'])->group(function () {
         Route::get('drugs_transaction', 'index')->name('drugs_transaction');
         Route::get('autocomplete_drugs', 'getDrugInfo');
         Route::post('store_drug_transaction', 'store')->name('store_drug_transaction');  
+        Route::get('print_receipt/{receipt_no}', 'receiptDispensary');
+        Route::get('click_print_receipt/{receipt_no}', function ($receipt_no) {
+            return "<script>
+                window.open('../print_receipt/$receipt_no','','left=0,top=0,width=500,height=477,toolbar=0,scrollbars=0,status =0');
+                window.location = '../drugs_transaction';
+            </script>"; 
+        });
         Route::get('delete_drug_transaction/{id}', 'destroy')->name('delete_drug_transaction');        
+    });
+
+    Route::controller(ReportController::class)->group(function (){
+        Route::get('report', 'index')->name('report');
+        Route::post('get_report', 'getReport')->name('get_report');    
     });
 });
 

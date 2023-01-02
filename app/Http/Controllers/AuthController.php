@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Drug;
+use App\Models\DrugTransactionHistory;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
@@ -12,8 +15,24 @@ class AuthController extends Controller
 {
     public function home()
     {
-        
-        return view('home');
+        $users = User::where('id', '!=', 1)->orderBy('id')->get();
+        $total_users = User::count();
+        $total_drugs = Drug::count();
+        $income_month = DrugTransactionHistory::selectRaw("sum(unit_price * quantity) as amount")
+                                                ->where(DB::raw('EXTRACT(YEAR_MONTH FROM created_at)'), date('Ym'))
+                                                ->first()->amount;
+        $income_today = DrugTransactionHistory::selectRaw("sum(unit_price * quantity) as amount")
+                                                ->where(DB::raw('DATE(created_at)'), date('Y-m-d'))
+                                                ->first()->amount;
+
+        $results = [
+            'users' => $users,
+            't_users' => $total_users - 1,
+            't_drugs' => $total_drugs,
+            'i_month' => $income_month,
+            'i_today' => $income_today,
+        ];
+        return view('home', ['results' => $results]);
         
     }
 

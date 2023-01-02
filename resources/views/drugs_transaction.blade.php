@@ -28,6 +28,7 @@
                             <th>Receipt #</th>
                             <th>Amount</th>
                             <th>Entered By</th>
+                            <th>Date/Time</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -38,8 +39,10 @@
                                 <td>{{ $transaction->receipt_no }}</td>
                                 <td>{{ $transaction->amount }}</td>
                                 <td>{{ $transaction->user->username }}</td>
+                                <td>{{ $transaction->updated_at->format('d-m-Y h:i:sa') }}</td>
                                 <td>
                                     <div class="btn-group">
+                                        <a class="btn btn-secondary btn-sm" href="click_print_receipt/{{ $transaction->receipt_no }}">Print</a>
                                         <button class="btn btn-success btn-sm edit" value="{{ $transaction->id }}" data-bs-target="#getlargeModal" data-bs-toggle="modal" title="Edit Details">Edit</button>
                                         <button class="btn btn-info btn-sm view" value="{{ $transaction->id }}" data-bs-target="#getlargeModal" data-bs-toggle="modal" title="View Details">View</button>
                                         <button class="btn btn-danger btn-sm delete" value="{{ $transaction->id }}" data-bs-toggle="modal" data-bs-target="#comfirm-delete" role="button">Del</button>

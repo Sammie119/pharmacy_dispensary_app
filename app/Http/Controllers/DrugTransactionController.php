@@ -70,20 +70,6 @@ class DrugTransactionController extends Controller
 
             $trans = new DrugTransaction;
         }
-        
-        foreach ($request->drug_name as $key => $drug_name) {
-            $tran_his = new DrugTransactionHistory;
-
-            $tran_his->drug_trans_id = $trans->id;
-            $tran_his->drug_name = $drug_name;
-            $tran_his->quantity = $request->quantity[$key];
-            $tran_his->unit_price = $request->unit_price[$key];
-            $tran_his->receipt_no = $receit;
-            $tran_his->created_by = Auth::user()->id;
-            $tran_his->updated_by = Auth::user()->id;
-
-            $tran_his->save();
-        }
 
         $trans->drug_name = $request->drug_name;
         $trans->quantity = $request->quantity;
@@ -103,9 +89,32 @@ class DrugTransactionController extends Controller
             $trans->save();
         }
 
-        return back()->with('success', 'Transaction Entered Successfully!!');
+        foreach ($request->drug_name as $key => $drug_name) {
+            $tran_his = new DrugTransactionHistory;
+
+            $tran_his->drug_trans_id = $trans->id;
+            $tran_his->drug_name = $drug_name;
+            $tran_his->quantity = $request->quantity[$key];
+            $tran_his->unit_price = $request->unit_price[$key];
+            $tran_his->receipt_no = $receit;
+            $tran_his->created_by = Auth::user()->id;
+            $tran_his->updated_by = Auth::user()->id;
+
+            $tran_his->save();
+        }
+
+        return "<script>
+                window.open('print_receipt/$receit','','left=0,top=0,width=500,height=477,toolbar=0,scrollbars=0,status =0');
+                window.location = 'drugs_transaction';
+            </script>";
+        // return back()->with('success', 'Transaction Entered Successfully!!');
         
         // dd($request->all());
+    }
+
+    public function receiptDispensary($receipt_no){
+        $trans = DrugTransactionHistory::where('receipt_no', $receipt_no)->get();
+        return view('print_receit', ['transaction' => $trans]);
     }
 
     public function destroy($id)

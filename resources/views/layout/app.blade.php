@@ -55,6 +55,12 @@
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->is('drugs_transaction') ? 'active' : '' }}" href="{{ route('drugs_transaction') }}">{{ __('Transaction') }}</a>
                             </li>
+                            
+                            @if (Auth::user()->user_level === 'Admin')
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->is('report') ? 'active' : '' }}" href="{{ route('report') }}">{{ __('Report') }}</a>
+                                </li>
+                            @endif
 
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->is('drugs') ? 'active' : '' }}" href="{{ route('drugs') }}">{{ __('Drugs') }}</a>
