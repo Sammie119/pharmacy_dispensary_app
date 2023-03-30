@@ -82,6 +82,74 @@
             </tfoot>
         </table>
         @break
+
+    @case('accounts')
+        <div style="font-size: 20px; text-align: center; padding-top: 30px">ACCOUNTS INCOME REPORT</div>
+        <div style="font-size: 16px; text-align: center; padding-top: 10px">Report Range: {{ $report['date_from'] }} to {{ $report['date_to'] }}</div>
+        {{-- {{ dd($query) }} --}}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($query['query'] as $key => $accounts)
+                    @php
+                        $total_amount += $accounts->amount;
+                    @endphp
+                    <tr>
+                        <td>{{ ++$key }}</td>
+                        <td>{{ $accounts->user->name }}</td>
+                        <td>{{ number_format($accounts->amount, 2) }}</td>
+                        <th></th>
+                    </tr>
+                @endforeach
+                <tr>
+                    <th colspan="3">{{ __('Total Income') }}</th>
+                    <th>{{ number_format($total_amount, 2) }}</th>
+                </tr>
+                <tr>
+                    <td colspan="3"><br></td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Receipt No.</th>
+                    <th>Amount</th>
+                </tr>
+                @foreach ($query['refund'] as $key => $refund)
+                    @php
+                        $total_quantity += $refund->amount;
+                    @endphp
+                    <tr>
+                        <td>{{ ++$key }}</td>
+                        <td>{{ $refund->user->name }}</td>
+                        <td>{{ $refund->receipt_no }}</td>
+                        <td>{{ number_format($refund->amount, 2) }}</td>
+                    </tr>
+                @endforeach
+                <tr>
+                    <th colspan="3">{{ __('Total Refund') }}</th>
+                    <th>{{ number_format($total_quantity, 2) }}</th>
+                </tr>
+                <tr>
+                    <td colspan="4"><br></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="3">Total Amount</th>
+                    <th>{{ number_format($total_amount - $total_quantity, 2) }}</th>
+                </tr>
+            </tfoot>
+        </table>
+        @break
 @endswitch
 
 <button class="noprint btn btn-primary" onclick="print_1()">Print</button>

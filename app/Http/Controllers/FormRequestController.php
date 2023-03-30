@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Drug;
+use App\Models\DrugTransaction;
 use App\Models\DrugTransactionHistory;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -44,8 +45,13 @@ class FormRequestController extends Controller
                 break;
 
             case 'edit_drug_transaction':
-                $drugs = DrugTransactionHistory::where('drug_trans_id', $id)->get();
-                return view('forms.input.drug_transaction_form', ['drugs' => $drugs]);
+                if(DrugTransaction::find($id)->paid === 0){
+                    $drugs = DrugTransactionHistory::where('drug_trans_id', $id)->get();
+                    return view('forms.input.drug_transaction_form', ['drugs' => $drugs]);
+                } else {
+                    return "<h3>Patient has made payment. So, editting can't be done!!!!</h3>";
+                }
+                
                 break;
                 
             default:
@@ -78,7 +84,29 @@ class FormRequestController extends Controller
                 break;
 
             case 'delete_drug_transaction':
-                return view('forms.delete.delete-drug_transaction', ['id' => $id]);
+                if(DrugTransaction::find($id)->paid === 0){
+                    return view('forms.delete.delete-drug_transaction', ['id' => $id]);
+                } else {
+                    return "<h3>Patient has made payment. So, Record can't be deleted!!!!</h3>";
+                }
+                
+                break;
+            
+            default:
+                return "No Form Selected";
+                break;
+        }
+    }
+
+    public function getPaymentModalData($data, $receipt_no)
+    {
+        switch ($data) {
+            case 'bill_payment':
+                return view('forms.payments.bill_payment', ['receipt_no' => $receipt_no]);
+                break;
+
+            case 'refund_bill':
+                return view('forms.payments.refund_bill', ['receipt_no' => $receipt_no]);
                 break;
             
             default:

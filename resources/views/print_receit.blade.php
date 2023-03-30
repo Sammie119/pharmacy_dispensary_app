@@ -116,15 +116,20 @@
 				</thead>
 				<tbody>
                     @php
-                        $total_drug = \App\Models\DrugTransaction::select('amount')->where('id', $transaction->last()->drug_trans_id)->first();
+                        $total_drug = \App\Models\DrugTransaction::select('amount', 'drug_name')->where('id', $transaction->last()->drug_trans_id)->first();
                     @endphp
 					@forelse ($transaction as $trans)
-						<tr>
+						{{-- <tr>
 							<td STYLE = "text-align: left; padding-left: 3px;">{{ $trans->drug_name }}</td>
 							<td STYLE = "text-align: center;">{{ $trans->quantity }}</td>
-							{{-- <td STYLE = "text-align: center;">{{ number_format($bills->sum('amount'), 2) }}</td> --}}
 							<td STYLE = "text-align: center;">{{ number_format($trans->quantity * $trans->unit_price, 2) }}</td>
+						</tr> --}}
+						<tr>
+							<td STYLE = "text-align: left; padding-left: 3px;">{{ __('Drugs') }}</td>
+							<td STYLE = "text-align: center;">{{ count($total_drug->drug_name) }}</td>
+							<td STYLE = "text-align: center;">{{ number_format($total_drug->amount, 2) }}</td>
 						</tr>
+						@break
 					@empty
 						<tr>
 							<td colspan="23" STYLE = "text-align: left; padding-left: 3px;">No Data Found</td>

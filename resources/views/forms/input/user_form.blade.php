@@ -18,8 +18,13 @@
             <div class="form-floating">
                 <select class="form-control" name="user_level" required >
                     <option value="" disabled selected>User Role</option>
-                    <option value="Admin" @if(isset($user) && ($user->user_level === 'Admin')) selected @endif >Admin</option>
-                    <option value="User" @if(isset($user) && ($user->user_level === 'User')) selected @endif >User</option>
+                    @if (Auth()->user()->user_level === "Admin")
+                        <option value="Admin" @if(isset($user) && ($user->user_level === 'Admin')) selected @endif >Admin</option>
+                        <option value="User" @if(isset($user) && ($user->user_level === 'User')) selected @endif >User</option>  
+                    @else
+                        <option value="Accountant" @if(isset($user) && ($user->user_level === 'Accountant')) selected @endif >Accountant</option>
+                        <option value="Accounts Officer" @if(isset($user) && ($user->user_level === 'Accounts Officer')) selected @endif >Accounts Officer</option>
+                    @endif
                 </select>
                 <label>Role</label>
             </div>

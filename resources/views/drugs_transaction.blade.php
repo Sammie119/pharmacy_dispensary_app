@@ -45,7 +45,9 @@
                                         <a class="btn btn-secondary btn-sm" href="click_print_receipt/{{ $transaction->receipt_no }}">Print</a>
                                         <button class="btn btn-success btn-sm edit" value="{{ $transaction->id }}" data-bs-target="#getlargeModal" data-bs-toggle="modal" title="Edit Details">Edit</button>
                                         <button class="btn btn-info btn-sm view" value="{{ $transaction->id }}" data-bs-target="#getlargeModal" data-bs-toggle="modal" title="View Details">View</button>
-                                        <button class="btn btn-danger btn-sm delete" value="{{ $transaction->id }}" data-bs-toggle="modal" data-bs-target="#comfirm-delete" role="button">Del</button>
+                                        @if (Auth()->user()->user_level === "Admin")
+                                            <button class="btn btn-danger btn-sm delete" value="{{ $transaction->id }}" data-bs-toggle="modal" data-bs-target="#comfirm-delete" role="button">Del</button>
+                                        @endif
                                     </div>
                                 </td>
                             </tr> 

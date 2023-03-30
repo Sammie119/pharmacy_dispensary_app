@@ -38,7 +38,18 @@ class AuthController extends Controller
 
     public function userList()
     {
-        $users = User::where('id', '!=', 1)->orderByDesc('id')->get();
+        if(Auth()->user()->user_level === "Admin"){
+            $users = User::where('id', '!=', 1)
+                            ->where('user_level', 'Admin')
+                            ->orWhere('user_level', 'User')
+                            ->orderByDesc('id')->get();
+        } else {
+            $users = User::where('id', '!=', 1)
+                            ->where('user_level', 'Accountant')
+                            ->orWhere('user_level', 'Accounts Officer')
+                            ->orderByDesc('id')->get();
+        }
+        
         return view('users', compact('users'));
         
     }

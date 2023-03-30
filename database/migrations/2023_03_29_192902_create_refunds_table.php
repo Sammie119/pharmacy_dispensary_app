@@ -14,20 +14,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('drug_transactions', function (Blueprint $table) {
+        Schema::create('refunds', function (Blueprint $table) {
             $table->id();
-            $table->json('drug_name');
-            $table->json('quantity');
-            $table->json('unit_price');
-            $table->decimal('amount', 10,2);
             $table->integer('receipt_no');
-            $table->tinyInteger('paid')->default(0)->nullable()->comment('0=Not paid, 1=paid');
+            $table->decimal('amount', 8,2);
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->timestamps();
         });
 
-        DB::statement('ALTER TABLE drug_transactions
+        DB::statement('ALTER TABLE refunds
             CHANGE receipt_no receipt_no INT(10) UNSIGNED ZEROFILL NOT NULL
         ');
     }
@@ -39,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('drug_transactions');
+        Schema::dropIfExists('refunds');
     }
 };

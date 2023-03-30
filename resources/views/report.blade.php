@@ -24,8 +24,13 @@
                                                 <label for="recipient-name" class="control-label">Report Type:</label>
                                                 <select name="report_type" id="report_type" class="form-control form-control-border" required>
                                                     <option value="" selected disabled>Select Report Type</option>
-                                                    <option value="users">Users Income Report</option>
-                                                    <option value="drugs">Drugs Income Report</option>
+                                                    @if (Auth()->user()->user_level === "Admin" || Auth()->user()->user_level === "User")
+                                                        <option value="users">Users Income Report</option>
+                                                        <option value="drugs">Drugs Income Report</option>
+                                                    @else
+                                                        <option value="accounts">Accounts Report</option>
+                                                    @endif
+                                                    
                                                 </select>
                                             </div>
                                             <div class="col-4">

@@ -1,11 +1,14 @@
 <?php
 
+use App\Models\DrugTransaction;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DrugController;
-use App\Http\Controllers\DrugTransactionController;
-use App\Http\Controllers\FormRequestController;
+use App\Http\Controllers\BillsController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\FormRequestController;
+use App\Http\Controllers\DrugTransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +60,19 @@ Route::middleware(['authCheck'])->group(function () {
         Route::get('report', 'index')->name('report');
         Route::post('get_report', 'getReport')->name('get_report');    
     });
+
+    Route::controller(BillsController::class)->group(function (){
+        Route::get('payments', 'index')->name('payments');
+        Route::get('bill_payment/{receipt_no}', 'receivePayment')->name('bill_payment');
+        Route::get('payment_list', 'payment_list')->name('payment_list');
+        Route::get('click_print_receipt_2/{receipt_no}', function ($receipt_no) {
+            return "<script>
+                window.open('../print_receipt/$receipt_no','','left=0,top=0,width=500,height=477,toolbar=0,scrollbars=0,status =0');
+                window.location = '../payment_list';
+            </script>"; 
+        });
+        Route::post('refund_bill', 'refundBill')->name('refund_bill');
+    });
 });
 
 Route::controller(FormRequestController::class)->group(function () {
@@ -71,5 +87,8 @@ Route::controller(FormRequestController::class)->group(function () {
 
     // Modal delete Route
     Route::get('delete-modal/{data}/{id}', 'getDeleteModalData');
+
+    // Modal payemt Route
+    Route::get('payment-modal/{data}/{id}', 'getPaymentModalData');
 });
 
